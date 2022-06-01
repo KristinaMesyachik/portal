@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "portal")
 public class User {
 
     @Id
@@ -32,4 +32,7 @@ public class User {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "is_enabled")
+    private Boolean isEnabled;
 }
