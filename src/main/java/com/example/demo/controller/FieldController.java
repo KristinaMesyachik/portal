@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@RestController
+@Controller
 @RequestMapping("/api/fields")
 public class FieldController {
 
@@ -26,8 +26,8 @@ public class FieldController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
-    public Page<Field> findAll(Model model
-//    public String findAll(Model model
+//    public Page<Field> findAll(Model model
+    public String findAll(Model model
             , @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
             , @RequestParam(value = "size", required = false, defaultValue = "3") Integer size
     ) {
@@ -40,7 +40,31 @@ public class FieldController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-//        return "field";
-        return fieldsPage;
+        return "field";
+//        return fieldsPage;
+    }
+
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/addPriceList"}, method = RequestMethod.GET)
+    public String showAddPriceListPage(Model model) {
+        Field field = new Field();
+        model.addAttribute("field", field);
+        return "addField";
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/update"}, method = RequestMethod.GET)
+    public String update(@RequestParam(name = "fieldId") Long fieldId, Model model) {
+        Field field = fieldService.findById(fieldId);
+        model.addAttribute("field", field);
+        return "addField";
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/delete"}, method = RequestMethod.GET)
+    public String delete(@RequestParam(name = "fieldId") Long fieldId) {
+        fieldService.delete(fieldId);
+        return "redirect:/api/fields/";
     }
 }
