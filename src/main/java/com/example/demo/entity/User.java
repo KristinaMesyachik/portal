@@ -19,7 +19,7 @@ public class User {
     private Long id;
 
     @Column(name = "email", unique = true)
-    private String login;
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -32,7 +32,4 @@ public class User {
 
     @Column(name = "phone")
     private String phone;
-
-    @Column(name = "is_enabled")
-    private Boolean isEnabled;
 }

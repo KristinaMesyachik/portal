@@ -22,18 +22,23 @@ public class UserService implements IService<User, Long>, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByLogin(username);
+        User user = findByUsername(username);
         return new MyUserDetails(user);
     }
 
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void save(User user) {
+    public void registrationSave(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setIsEnabled(false);
+        userRepository.save(user);
+    }
+
+    public void save(User user, String username) {
+        User byUsername = findByUsername(username);
+        user.setPassword(passwordEncoder.encode(byUsername.getPassword()));
         userRepository.save(user);
     }
 }

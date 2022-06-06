@@ -1,38 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Регистрация</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Table fields</title>
+
+    <!-- See configuration in WebMvConfig.java -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/popper/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
+
 <div class="main">
-    <h2>Регистрация</h2>
-    <form th:action="@{/api/users/save}" th:object="${user}" method="POST">
-        <input type="hidden" th:field="*{id}"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 centered">
+                <div class="blockCenter">
+                    <img class="logo" th:src="@{/image/logo.png}"
+                         width="200" height="50"
+                    />
+                    <h4>Sing Up</h4>
+                </div>
+                <p th:if="${loginError}" class="error">Wrong user or password</p>
+                <form th:action="@{/registrationSave}" th:object="${user}" method="POST">
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">
+                            Invalid username or password.
+                        </div>
+                    </div>
+                    <input type="hidden" th:field="*{id}"/>
 
-        Почта:
-        <input type="email" placeholder="Введите почту" th:field="*{login}" required/>
-        <br/>
+                    <div class="form-outline mb-4">
+                        <input type="email" class="form-control"
+                               th:field="*{username}" placeholder="Email*" required/>
+                    </div>
 
-        Пароль :
-        <input type="password" placeholder="Введите пароль" th:field="*{password}" required/>
-        <br/>
+                    <div class="form-outline mb-4">
+                        <input type="password" class="form-control"
+                               th:field="*{password}" placeholder="Password*" required/>
+                    </div>
 
-        Фамилия :
-        <input type="text" placeholder="Введите фамилию" th:field="*{lastname}"/>
+                    <div class="form-outline mb-4">
+                        <input type="password" class="form-control"
+                               placeholder="Confirm password*"
+                        />
+                    </div>
 
-        Имя :
-        <input type="text" placeholder="Введите имя" th:field="*{firstname}" required/>
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control"
+                               th:field="*{firstname}" placeholder="First Name">
+                    </div>
 
-        Телефон :
-        <input type="text" placeholder="Введите телефон" th:field="*{phone}"/>
-        <br/>
-        <div>
-            <button type="submit">Зарегистрироваться</button>
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control"
+                               th:field="*{lastname}" placeholder="Last Name"/>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input type="tel" class="form-control"
+                               th:field="*{phone}" placeholder="Phone Number"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block mb-4">SIGN UP</button>
+
+                    <div class="text-center">
+                        <p>Already have account? <a href="/login/">Log in</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>

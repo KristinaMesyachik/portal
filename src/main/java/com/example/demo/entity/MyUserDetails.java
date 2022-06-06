@@ -26,13 +26,13 @@ public class MyUserDetails implements UserDetails {
     private boolean isEnabled;
 
     public MyUserDetails(User user) {
-        this.username = user.getLogin();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.grantedAuthorities = new HashSet<GrantedAuthority>(Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
         this.isCredentialsNonExpired = true;
-        this.isEnabled = user.getIsEnabled();
+        this.isEnabled = true;
     }
 
     @Override

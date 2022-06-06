@@ -28,14 +28,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/api/users/save/*","/api/users/registration/*", "index",  "/css/*", "/image/*", "/js/*")
+                .antMatchers("/", "/save/*","/registration/*", "index",  "/css/*", "/image/*", "/js/*")
                 .permitAll()
 //                .anyRequest().authenticated()//при переходе проверка регистрации
                 .and()
                 .formLogin()
-//                .loginPage("/api/user/login")
+//                .loginPage("/login")
+//                .loginProcessingUrl("/process-login")
+                .defaultSuccessUrl("/after-sing_up", true)//Страница после входа
+//                .failureUrl("/login?error=true")
                 .permitAll()
-                .defaultSuccessUrl("/api/fields/", true)//Страница после входа
+//                .and()
+//
+//                .logout()
+//                .logoutSuccessUrl("/login?logout=true")
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
+//                .permitAll()
         ;
     }
 
@@ -48,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth){
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 }

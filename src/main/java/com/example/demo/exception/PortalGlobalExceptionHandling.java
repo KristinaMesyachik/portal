@@ -18,9 +18,9 @@ public class PortalGlobalExceptionHandling {
 
     @ExceptionHandler
     public ResponseEntity<PortalIncorrectData> handleException(Exception exception) {
-        PortalIncorrectData employeeIncorrectData = new PortalIncorrectData();
-        employeeIncorrectData.setInfo(exception.getMessage());
+        PortalIncorrectData portalIncorrectData = new PortalIncorrectData();
+        portalIncorrectData.setInfo(exception.getMessage());
 
-        return new ResponseEntity<>(employeeIncorrectData, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(portalIncorrectData, HttpStatus.BAD_REQUEST);
     }
 }

@@ -22,12 +22,12 @@ public class UserController {
 
     @Autowired
     private IMailService mailService;
-//
-//    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-//    public String login() {
-////        User user = new User();
-//        return "login";
-//    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login() {
+//        User user = new User();
+        return "login";
+    }
 
     @GetMapping("/registration")
     public String addUserPage(Model model) {
