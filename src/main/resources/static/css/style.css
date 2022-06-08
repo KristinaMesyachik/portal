@@ -1,6 +1,8 @@
 button{
     border:none;
     background-color: rgba(28,28,28,0);
+    outline: none;
+    cursor: pointer;
 }
 
 .actions{
@@ -17,17 +19,16 @@ caption-side: top;
 
 .centered{
   float: none;
-  margin: 100px auto;
+  margin: 50px auto;
 }
 
 .blockCenter{
     text-align: center;
     margin-top:30px;
     margin-bottom:30px;
-
 }
 
-.col-md-6{
+.col-md-6, .col-md-12{
   border: 1px solid #c5c5c5;
   border-radius:8px;
   background-color: white;
@@ -37,4 +38,29 @@ caption-side: top;
 
 body{
   background-color: #f2f2f2;
+}
+
+.navbar-collapse{
+    flex-grow: unset;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown:hover button span {
+  color: #01a2f5;
+}
+
+.captions div{
+float:left;
+width:50%;
+}
+
+#captionLeft{
+    text-align: left;
+}
+
+#captionRight{
+    text-align: right;
 }
