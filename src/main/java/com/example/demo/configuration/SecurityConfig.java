@@ -33,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()//при переходе проверка регистрации
                 .and()
                 .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/process-login")
+                .loginPage("/login")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+                .loginProcessingUrl("/process-login")
                 .defaultSuccessUrl("/after-sing_up", true)//Страница после входа
 //                .failureUrl("/login?error=true")
                 .permitAll()

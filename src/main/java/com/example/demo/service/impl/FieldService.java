@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,14 @@ public class FieldService implements IService<Field, Long> {
         return fieldRepository.findAll(pageable);
     }
 
+    public List<Field> findAll() {
+        return fieldRepository.findAll();
+    }
+
+    public Field create(Field field){
+        return fieldRepository.save(field);
+    }
+
     public Field findById(Long id) {
         Optional<Field> fieldOptional = fieldRepository.findById(id);
         if (fieldOptional.isEmpty()) {
@@ -29,7 +38,17 @@ public class FieldService implements IService<Field, Long> {
         return fieldOptional.get();
     }
 
-    public void delete(Long id) {
+    public Field update(Long id, Field newField){
+        Field field = findById(id);
+        field.setLabel(newField.getLabel());
+        field.setType(newField.getType());
+        field.setIsActive(newField.getIsActive());
+        field.setOptions(newField.getOptions());
+        field.setIsRequired(newField.getIsRequired());
+        return fieldRepository.save(field);
+    }
+
+    public void deleteById(Long id) {
         fieldRepository.deleteById(id);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,20 @@ public class UserService implements IService<User, Long>, UserDetailsService {
         userRepository.save(user);
     }
 
-    public void save(User user, String username) {
+    public boolean changePassword(String username, String pass, String newPass) {
+        User user = findByUsername(username);
+        if(BCrypt.checkpw(pass,user.getPassword())){
+            user.setPassword(passwordEncoder.encode(newPass));
+            userRepository.save(user);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public User update(User user, String username) {
         User byUsername = findByUsername(username);
-        user.setPassword(passwordEncoder.encode(byUsername.getPassword()));
-        userRepository.save(user);
+        user.setPassword(byUsername.getPassword());
+        return userRepository.save(user);
     }
 }
