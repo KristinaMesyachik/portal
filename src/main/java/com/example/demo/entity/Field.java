@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "field")
+@Table(name = "field", schema = "portal")
 public class Field {
     @Id
     @Column(name = "id")
@@ -30,4 +31,8 @@ public class Field {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "fieldId"
+            , cascade = CascadeType.ALL)
+    private List<Option> options;
 }

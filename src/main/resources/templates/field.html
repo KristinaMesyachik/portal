@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Table fields</title>
+
+    <!-- See configuration in WebMvConfig.java -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/popper/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+
+<div class="main">
+    <div class="container">
+        <a class="btn" data-toggle="modal" href="#myModal">ADD FIELD</a>
+
+
+        <div class="modal" id="myModal">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h3>Add Field</h3>
+            </div>
+
+            <!--            <div class="modal-body">-->
+            <!--                <form th:action="@{/api/fields/save}" th:object="${newField}" method="POST">-->
+            <!--                    <div class="modal-body">-->
+            <!--                        ...-->
+            <!--                        <div class="row mb-4">-->
+            <!--                            <div class="col">-->
+            <!--                                <div class="form-outline">-->
+            <!--                                    <label>Label</label>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                            <div class="col">-->
+            <!--                                <div class="form-outline">-->
+            <!--                                    <input type="text" id="form3Example2" class="form-control"-->
+            <!--                                           th:field="*{label}"/>-->
+            <!--                                    <label class="form-label" for="form3Example2">Last name</label>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        ....-->
+            <!--                    </div>-->
+            <!--                    <div class="modal-footer">-->
+            <!--                        <a href="#" class="btn">CANCEL</a>-->
+            <!--                        <input type="submit" value="SAVEEE"/>-->
+            <!--                    </div>-->
+            <!--                </form>-->
+            <!--            </div>-->
+        </div>
+
+
+        <div>
+            <table class="table table-hover">
+                <caption>Fields</caption>
+                <tr>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Is Active</th>
+                    <th></th>
+
+                </tr>
+                <tr th:each="field : ${fieldsPage.content}">
+                    <td th:utext="${field.label}">...</td>
+                    <td th:utext="${field.type.value}">...</td>
+                    <td th:utext="${field.isRequired}">...</td>
+                    <td th:utext="${field.isActive}">...</td>
+                    <td>
+                        <div class="actions">
+                            <form th:action="@{/api/fields/update/}" method="get">
+                                <input type="hidden" th:name="fieldId" th:value="${field.id}">
+                                <button type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </button>
+                            </form>
+
+                            <form th:action="@{/api/fields/delete/}" method="get">
+                                <input type="hidden" th:name="fieldId" th:value="${field.id}"/>
+                                <button type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <div th:if="${fieldsPage.totalPages > 0}"
+                     th:each="pageNumber : ${pageNumbers}">
+                    <li class="page-item">
+                        <a th:href="@{/api/fields/(size=${fieldsPage.size}, page=${pageNumber})}"
+                           th:text=${pageNumber}
+                           th:class="${pageNumber==fieldsPage.number + 1} ? active"
+                        ></a>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "portal")
 public class User {
 
     @Id
@@ -19,7 +19,7 @@ public class User {
     private Long id;
 
     @Column(name = "email", unique = true)
-    private String login;
+    private String username;
 
     @Column(name = "password")
     private String password;
