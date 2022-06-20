@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/fields")
 public class FieldController {
@@ -19,12 +20,9 @@ public class FieldController {
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public Page<Field> read(
-//            Model model
-//    public String findAll(Model model,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
-            , @RequestParam(value = "size", required = false, defaultValue = "2") Integer size
+            , @RequestParam(value = "size", required = false, defaultValue = "10") Integer size
     ) {
-//        Page<Field> fieldsPage = fieldService.findAll(PageRequest.of(page - 1, size));
         return fieldService.findAll(PageRequest.of(page - 1, size));
     }
 

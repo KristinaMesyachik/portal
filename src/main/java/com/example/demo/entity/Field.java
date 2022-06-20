@@ -33,6 +33,6 @@ public class Field {
     private Boolean isActive;
 
     @OneToMany(mappedBy = "fieldId"
-            , cascade = CascadeType.ALL)
+            , cascade = CascadeType.ALL, orphanRemoval = true)//при изменении если нет option не работает
     private List<Option> options;
 }
