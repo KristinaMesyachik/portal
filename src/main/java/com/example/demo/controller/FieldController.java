@@ -5,6 +5,7 @@ import com.example.demo.service.impl.FieldService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,21 @@ public class FieldController {
         return fieldService.findAll(PageRequest.of(page - 1, size));
     }
 
-    @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
-    public Field update(@PathVariable(name = "id") Long fieldId) {
-        return fieldService.findById(fieldId);
+    @RequestMapping(value = {"/active"}, method = RequestMethod.GET)
+    public List<Field> findByIsActiveTrue() {
+        return fieldService.findByIsActiveTrue();
     }
 
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
+    public Field findById(@PathVariable(name = "id") Long fieldId) {
+        return fieldService.findById(fieldId);
+    }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.POST)
     public Field create(@RequestBody Field field) {
-        return fieldService.create(field);
+        return fieldService.save(field);
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
