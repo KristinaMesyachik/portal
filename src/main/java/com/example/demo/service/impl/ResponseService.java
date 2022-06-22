@@ -1,12 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Answer;
-import com.example.demo.entity.Field;
 import com.example.demo.entity.Response;
 import com.example.demo.exception.NoSuchPortalException;
-import com.example.demo.repository.IAnswerRepository;
 import com.example.demo.repository.IResponseRepository;
-import com.example.demo.service.IService;
+import com.example.demo.service.IResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,51 +16,48 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ResponseService implements IService<Response, Long> {
+public class ResponseService implements IResponseService {
 
     @Autowired
     private IResponseRepository responseRepository;
 
     @Autowired
-    private IAnswerRepository answerRepository;
+    private AnswerService answerService;
 
+    @Override
     public Page<Response> findAll(Pageable pageable) {
         return responseRepository.findAll(pageable);
     }
 
-    public List<Response> findAll() {
-        return responseRepository.findAll();
-    }
-
+    @Override
     @Transactional
-    public Response create(Response response) {
+    public Response save(Response response) {
         List<Answer> answers = new ArrayList<>();
         for (Answer answer : response.getAnswers()) {
-            Answer answer1 = answerRepository.save(answer);
-            answers.add(answerFindById(answer1.getId()));
+            Answer answer1 = answerService.save(answer);
+            answers.add(answerService.findById(answer1.getId()));
         }
         response.setAnswers(answers);
         Response save = responseRepository.save(response);
         for (Answer answer : response.getAnswers()) {
             answer.setResponseId(save.getId());
-            answerRepository.save(answer);
+            answerService.save(answer);
         }
         return findById(response.getId());
     }
 
-    public Answer answerFindById(Long id) {
-        Optional<Answer> answerOptional = answerRepository.findById(id);
-        if (answerOptional.isEmpty()) {
-            throw new NoSuchPortalException("There is no answer with ID = " + id + "in database");
-        }
-        return answerOptional.get();
-    }
-
+    @Override
     public Response findById(Long id) {
         Optional<Response> responseOptional = responseRepository.findById(id);
         if (responseOptional.isEmpty()) {
             throw new NoSuchPortalException("There is no response with ID = " + id + "in database");
         }
         return responseOptional.get();
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        responseRepository.deleteById(id);
     }
 }
