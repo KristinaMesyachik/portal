@@ -97,6 +97,11 @@ public class FieldService implements IFieldService {
     }
 
     @Override
+    public List<Field> findAll() {
+        return fieldRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public void deleteById(Long id) {
         Field field = findById(id);
@@ -107,16 +112,5 @@ public class FieldService implements IFieldService {
             answerService.deleteById(answer.getId());
         }
         fieldRepository.deleteById(id);
-    }
-
-    @Override
-    public Field webSocketGet(Field field) {
-        if (field.getId() != null && field.getLabel().isEmpty()) {
-            deleteById(field.getId());
-            return field;
-        } else if (field.getId() == null && !field.getLabel().isEmpty()) {
-            return save(field);
-        } else
-            return update(field.getId(), field);
     }
 }

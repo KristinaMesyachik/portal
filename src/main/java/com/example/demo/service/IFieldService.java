@@ -13,5 +13,5 @@ public interface IFieldService extends IService<Field, Long> {
 
     Field update(Long id, Field newField);
 
-    Field webSocketGet (Field field);
+    List<Field> findAll();
 }
