@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.MyUserDetails;
 import com.example.demo.entity.User;
 import com.example.demo.service.IMailService;
 import com.example.demo.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,9 +20,9 @@ public class UserController {
     @Autowired
     private IMailService mailService;
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
-    public Boolean login(@RequestBody User user) {
-        return userService.existsByUsernameAndPassword(user.getUsername(), user.getPassword());
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login() {
+        return "Success login";
     }
 
     @RequestMapping(value = {"/signup"}, method = RequestMethod.POST)
@@ -38,14 +35,14 @@ public class UserController {
         return user;
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.PUT)
     public User update(@RequestBody User user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.update(user, auth.getName());
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/edit-password"}, method = RequestMethod.POST)
     public Boolean savePass(@RequestParam(name = "password") String password,
                             @RequestParam(name = "newPassword") String newPassword) {
