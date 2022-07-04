@@ -28,24 +28,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/save/*","/registration/*", "index",  "/css/*", "/image/*", "/js/*")
+                .antMatchers("/**")
+//                .antMatchers("/fields/*", "/gs-guide-websocket/**",
+//                        "/", "/save/*","/registration/*", "index",  "/css/*", "/image/*", "/js/*")
                 .permitAll()
 //                .anyRequest().authenticated()//при переходе проверка регистрации
-                .and()
-                .formLogin()
-                .loginPage("/login")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-                .loginProcessingUrl("/process-login")
-                .defaultSuccessUrl("/after-sing_up", true)//Страница после входа
-//                .failureUrl("/login?error=true")
-                .permitAll()
 //                .and()
-//
+//                .formLogin()
+//                .loginPage("/login")
+////                .usernameParameter("username")
+////                .passwordParameter("password")
+//                .loginProcessingUrl("/process-login")
+//                .defaultSuccessUrl("/after-sing_up", true)//Страница после входа
+//                .failureUrl("/login?error=true")
+//                .permitAll()
+                .and()
+                .httpBasic()
 //                .logout()
-//                .logoutSuccessUrl("/login?logout=true")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID")
 //                .permitAll()
         ;
     }
@@ -59,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth){
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 }
