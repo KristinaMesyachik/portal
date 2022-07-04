@@ -43,9 +43,19 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = {"/edit-password"}, method = RequestMethod.POST)
-    public Boolean savePass(@RequestParam(name = "password") String password,
-                            @RequestParam(name = "newPassword") String newPassword) {
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public User findByUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User byUsername = userService.findByUsername(auth.getName());
+        System.err.println(byUsername);
+        return byUsername;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = {"/editPassword/"}, method = RequestMethod.GET)
+    public Boolean savePass(
+            @RequestParam(name = "newPassword") String newPassword,
+            @RequestParam(name = "password") String password) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         boolean isChangePassword = userService.changePassword(username, password, newPassword);
         if (isChangePassword) {
