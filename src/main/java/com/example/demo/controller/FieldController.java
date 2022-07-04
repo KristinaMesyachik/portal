@@ -22,7 +22,7 @@ public class FieldController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public Page<Field> read(
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
@@ -31,7 +31,7 @@ public class FieldController {
         return fieldService.findAll(PageRequest.of(page - 1, size));
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @RequestMapping(value = {"/all"}, method = RequestMethod.GET)
     public List<Field> findAll() {
         return fieldService.findAll();
@@ -42,13 +42,13 @@ public class FieldController {
         return fieldService.findByIsActiveTrue();
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
     public Field findById(@PathVariable(name = "id") Long fieldId) {
         return fieldService.findById(fieldId);
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.POST)
     public Field create(@RequestBody Field field) {
         Field save = fieldService.save(field);
@@ -56,7 +56,7 @@ public class FieldController {
         return save;
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.PUT)
     public Field update(@PathVariable(name = "id") Long fieldId, @RequestBody Field field) {
         Field update = fieldService.update(fieldId, field);
@@ -65,7 +65,7 @@ public class FieldController {
         return update;
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.DELETE)
     public void delete(@PathVariable(name = "id") Long fieldId) {
         fieldService.deleteById(fieldId);

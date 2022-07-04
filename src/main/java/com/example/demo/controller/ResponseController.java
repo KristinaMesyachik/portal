@@ -29,7 +29,6 @@ public class ResponseController {
         return responseService.findAll(PageRequest.of(page - 1, size));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = {"/"}, method = RequestMethod.POST)
     public Response create(@RequestBody Response response) {
         Response save = responseService.save(response);
