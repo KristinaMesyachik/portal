@@ -46,7 +46,7 @@ public class FieldService implements IFieldService {
     @Override
     public Field save(Field field) {
         Field save = fieldRepository.save(field);
-        if(save.getOptions() != null){
+        if(!save.getOptions().isEmpty()){
             for (Option option : save.getOptions()) {
                 Optional<Option> byId = optionRepository.findById(option.getId());
                 byId.get().setFieldId(save.getId());
