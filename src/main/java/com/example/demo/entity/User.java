@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
+    @Pattern(regexp="(^$|[0-9]{11})")
     @Column(name = "phone")
     private String phone;
 }
