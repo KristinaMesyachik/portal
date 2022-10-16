@@ -11,11 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "response", schema = "portal")
+@Table(name = "response")
 public class Response {
+
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "response_seq_gen", sequenceName = "response_id_seq",
+            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "response_seq_gen")
     private Long id;
 
     @OneToMany(mappedBy = "responseId"

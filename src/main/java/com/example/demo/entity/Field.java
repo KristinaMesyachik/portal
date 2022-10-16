@@ -14,12 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "field", schema = "portal")
+@Table(name = "field")
 public class Field {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "field_seq_gen", sequenceName = "field_id_seq",
+            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "field_seq_gen")
     private Long id;
 
     @NotBlank

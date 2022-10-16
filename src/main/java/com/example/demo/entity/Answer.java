@@ -11,12 +11,14 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "answer", schema = "portal")
+@Table(name = "answer")
 public class Answer {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "answer_seq_gen", sequenceName = "answer_id_seq",
+            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "answer_seq_gen")
     private Long id;
 
     @NotBlank
