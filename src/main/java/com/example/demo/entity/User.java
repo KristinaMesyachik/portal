@@ -5,17 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user", schema = "portal")
+@Table(name = "users")
 public class User {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "users_seq_gen", sequenceName = "users_id_seq",
+            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq_gen")
     private Long id;
 
     @Column(name = "email", unique = true)
@@ -30,6 +33,7 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
+    @Pattern(regexp = "(^$|[0-9]{11})")
     @Column(name = "phone")
     private String phone;
 }

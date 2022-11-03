@@ -22,6 +22,6 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 //                .setAllowedOrigins("domainname.com")
                 .setAllowedOrigins("http://localhost:3000")
                 .withSockJS()
-      ;
+        ;
     }
 }

@@ -1,10 +1,13 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.ResponseDTO;
 import com.example.demo.entity.Answer;
 import com.example.demo.entity.Response;
 import com.example.demo.exception.NoSuchPortalException;
 import com.example.demo.repository.IResponseRepository;
-import com.example.demo.service.IResponseService;
+import com.example.demo.service.interf.IResponseService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,30 +27,35 @@ public class ResponseService implements IResponseService {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public Page<Response> findAll(Pageable pageable) {
-        return responseRepository.findAll(pageable);
+    public Page<ResponseDTO> findAll(Pageable pageable) {
+        return responseRepository.findAll(pageable)
+                .map(this::convertEntityToDto);
     }
 
     @Override
     @Transactional
-    public Response save(Response response) {
+    public ResponseDTO save(ResponseDTO responseDTO) {
+        Response response = convertDtoToEntity(responseDTO);
         List<Answer> answers = new ArrayList<>();
         for (Answer answer : response.getAnswers()) {
-            Answer answer1 = answerService.save(answer);
-            answers.add(answerService.findById(answer1.getId()));
+            Answer answer1 = answerService.saveEntity(answer);
+            answers.add(answerService.findByIdEntity(answer1.getId()));
         }
         response.setAnswers(answers);
         Response save = responseRepository.save(response);
         for (Answer answer : response.getAnswers()) {
             answer.setResponseId(save.getId());
-            answerService.save(answer);
+            answerService.saveEntity(answer);
         }
         return findById(response.getId());
     }
 
     @Override
-    public Response findById(Long id) {
+    public Response findByIdEntity(Long id) {
         Optional<Response> responseOptional = responseRepository.findById(id);
         if (responseOptional.isEmpty()) {
             throw new NoSuchPortalException("There is no response with ID = " + id + "in database");
@@ -56,8 +64,28 @@ public class ResponseService implements IResponseService {
     }
 
     @Override
+    public ResponseDTO findById(Long id) {
+        Response response = findByIdEntity(id);
+        return convertEntityToDto(response);
+    }
+
+    @Override
     @Transactional
     public void deleteById(Long id) {
         responseRepository.deleteById(id);
+    }
+
+    @Override
+    public ResponseDTO convertEntityToDto(Response response) {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(response, ResponseDTO.class);
+    }
+
+    @Override
+    public Response convertDtoToEntity(ResponseDTO responseDTO) {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(responseDTO, Response.class);
     }
 }
