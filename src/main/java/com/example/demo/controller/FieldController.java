@@ -27,7 +27,7 @@ public class FieldController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public Page<FieldDTO> read(
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
@@ -46,14 +46,14 @@ public class FieldController {
         return fieldService.findByIsActiveTrue();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
     public FieldDTO findById(@PathVariable(name = "id") @Min(0) Long fieldId) {
         return fieldService.findById(fieldId);
     }
 
     @Validated({Marker.OnCreate.class})
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/"}, method = RequestMethod.POST)
     public FieldDTO create(@Valid @RequestBody FieldDTO field) {
         FieldDTO save = fieldService.save(field);
@@ -62,7 +62,7 @@ public class FieldController {
     }
 
     @Validated({Marker.OnUpdate.class})
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.PUT)
     public FieldDTO update(@PathVariable(name = "id") @Min(0) Long fieldId, @Valid @RequestBody FieldDTO field) {
         FieldDTO update = fieldService.update(fieldId, field);
@@ -71,7 +71,7 @@ public class FieldController {
     }
 
     @Validated({Marker.OnDelete.class})
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.DELETE)
     public void delete(@PathVariable(name = "id") @Min(0) Long fieldId) {
         fieldService.deleteById(fieldId);
