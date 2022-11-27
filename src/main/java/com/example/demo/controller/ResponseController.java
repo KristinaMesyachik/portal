@@ -26,7 +26,7 @@ public class ResponseController {
     @Autowired
     private ResponseService responseService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public Page<ResponseDTO> read(
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page
@@ -44,7 +44,7 @@ public class ResponseController {
     }
 
     @Validated({Marker.OnDelete.class})
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.DELETE)
     public void delete(@PathVariable(name = "id") @Min(0) Long fieldId) {
         responseService.deleteById(fieldId);

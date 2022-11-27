@@ -27,11 +27,6 @@ public class UserController {
     @Autowired
     private IMailService mailService;
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login() {
-        return "Success login";
-    }
-
     @RequestMapping(value = {"/signup"}, method = RequestMethod.POST)
     public UserDTO create(@Valid @RequestBody UserAddDTO user) {
         UserDTO userDTO = userService.saveNewUser(user);
@@ -42,21 +37,21 @@ public class UserController {
     }
 
     @Validated({Marker.OnUpdate.class})
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/"}, method = RequestMethod.PUT)
     public UserDTO update(@Valid @RequestBody UserDTO user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.update(user, auth.getName());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public UserDTO findByUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userService.findByUsername(auth.getName());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/editPassword/"}, method = RequestMethod.GET)
     public Boolean savePass(
             @RequestParam(name = "newPassword") @NotBlank String newPassword,
