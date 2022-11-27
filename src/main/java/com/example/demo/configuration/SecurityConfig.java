@@ -1,15 +1,19 @@
 package com.example.demo.configuration;
 
+import com.example.demo.filter.JWTAuthenticationFilter;
+import com.example.demo.filter.JWTAuthorizationFilter;
 import com.example.demo.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -27,25 +31,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/**")
-//                .antMatchers("/fields/*", "/gs-guide-websocket/**",
-//                        "/", "/save/*","/registration/*", "index",  "/css/*", "/image/*", "/js/*")
-                .permitAll()
-//                .anyRequest().authenticated()//при переходе проверка регистрации
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-////                .usernameParameter("username")
-////                .passwordParameter("password")
-//                .loginProcessingUrl("/process-login")
-//                .defaultSuccessUrl("/after-sing_up", true)//Страница после входа
-//                .failureUrl("/login?error=true")
-//                .permitAll()
+                .cors()
                 .and()
-                .httpBasic()
-//                .logout()
-//                .permitAll()
+                .authorizeRequests()
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/**/all",
+                        "/**/active",
+                        "/gs-guide-websocket/**"
+                )
+                .permitAll()
+                .antMatchers(HttpMethod.POST, "/**/responses")
+                .permitAll()
+                .antMatchers(HttpMethod.POST, AuthenticationConfigConstants.SIGN_UP_URL)
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
     }
 
