@@ -14,8 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,17 +38,11 @@ public class ResponseService implements IResponseService {
     @Transactional
     public ResponseDTO save(ResponseDTO responseDTO) {
         Response response = convertDtoToEntity(responseDTO);
-        List<Answer> answers = new ArrayList<>();
-        for (Answer answer : response.getAnswers()) {
-            Answer answer1 = answerService.saveEntity(answer);
-            answers.add(answerService.findByIdEntity(answer1.getId()));
-        }
-        response.setAnswers(answers);
         Response save = responseRepository.save(response);
-        for (Answer answer : response.getAnswers()) {
-            answer.setResponseId(save.getId());
-            answerService.saveEntity(answer);
-        }
+        response.getAnswers().forEach(s -> {
+            s.setResponseId(save.getId());
+            answerService.saveEntity(s);
+        });
         return findById(response.getId());
     }
 
