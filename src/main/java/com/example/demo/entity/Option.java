@@ -17,7 +17,7 @@ public class Option {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "option_seq_gen", sequenceName = "option_id_seq",
-            initialValue = 1, allocationSize = 1)
+            initialValue = 7, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "option_seq_gen")
     private Long id;
 

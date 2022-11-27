@@ -17,7 +17,7 @@ public class Response {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "response_seq_gen", sequenceName = "response_id_seq",
-            initialValue = 1, allocationSize = 1)
+            initialValue = 3, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "response_seq_gen")
     private Long id;
 

@@ -20,7 +20,7 @@ public class Field {
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "field_seq_gen", sequenceName = "field_id_seq",
-            initialValue = 1, allocationSize = 1)
+            initialValue = 6, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "field_seq_gen")
     private Long id;
 
