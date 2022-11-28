@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/**/all",
                         "/**/active",
-                        "/gs-guide-websocket/**"
+                        "/portal/**"
                 )
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/**/responses")

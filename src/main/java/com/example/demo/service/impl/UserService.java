@@ -73,7 +73,6 @@ public class UserService implements IUserService {
     public UserDTO update(UserDTO userDTO, String username) {
         User byUsername = findByUsernameEntity(username);
         User user = convertDtoToEntity(userDTO);
-        user.setId(byUsername.getId());
         user.setPassword(byUsername.getPassword());
         User save = userRepository.save(user);
         return convertEntityToDto(save);
