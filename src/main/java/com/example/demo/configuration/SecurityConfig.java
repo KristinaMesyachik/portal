@@ -34,10 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/**").permitAll()
                 .antMatchers("/**/all",
                         "/**/active",
-                        "/portal/**"
+                        "/portal/**",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v2/api-docs/**"
                 )
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/**/responses")
