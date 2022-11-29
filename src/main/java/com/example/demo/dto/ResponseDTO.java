@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseDTO {
 
-     @Null(groups = Marker.OnCreate.class)
-     @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
-     private Long id;
+    @Null(groups = Marker.OnCreate.class, message = "Response id be null when creating")
+    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class},
+            message = "Response id cannot be null when updating or deleting")
+    private Long id;
 
-     @NotEmpty
-     private List<AnswerDTO> answers;
+    @NotEmpty(message = "Field cannot be empty")
+    private List<AnswerDTO> answers;
 }

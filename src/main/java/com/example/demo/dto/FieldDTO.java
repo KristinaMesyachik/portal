@@ -16,22 +16,23 @@ import java.util.List;
 @NoArgsConstructor
 public class FieldDTO {
 
-    @Null(groups = Marker.OnCreate.class)
-    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
+    @Null(groups = Marker.OnCreate.class, message = "Field id be null when creating")
+    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class},
+            message = "Field id cannot be null when updating or deleting")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Field label cannot be blank")
     private String label;
 
-    @NotNull
+    @NotNull(message = "Field type cannot be null")
     private Type type;
 
-    @NotNull
+    @NotNull(message = "isRequired field cannot be null")
     private Boolean isRequired;
 
-    @NotNull
+    @NotNull(message = "isActive field cannot be null")
     private Boolean isActive;
 
-    @NotNull
+    @NotNull(message = "Field options cannot be null")
     private List<OptionDTO> options;
 }

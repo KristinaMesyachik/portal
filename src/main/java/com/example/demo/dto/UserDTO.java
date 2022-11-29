@@ -14,15 +14,16 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserDTO {
 
-    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
+    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class},
+            message = "User id cannot be null when updating or deleting")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
     private String firstname;
     private String lastname;
 
-    @Pattern(regexp="(^$|[0-9]{11})")
+    @Pattern(regexp = "(^$|[0-9]{11}|[+][0-9]{12})")
     private String phone;
 }

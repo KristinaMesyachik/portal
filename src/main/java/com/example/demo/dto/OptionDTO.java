@@ -15,13 +15,14 @@ import javax.validation.constraints.Null;
 @NoArgsConstructor
 public class OptionDTO {
 
-    @Null(groups = Marker.OnCreate.class)
-    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
+    @Null(groups = Marker.OnCreate.class, message = "Option id be null when creating")
+    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class},
+            message = "Option id cannot be null when updating or deleting")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Option title cannot be blank")
     private String title;
 
-    @Min(0)
+    @Min(value = 0, message = "Age should not be less than 15")
     private Long fieldId;
 }

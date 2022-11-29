@@ -12,15 +12,16 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserAddDTO {
 
-    @NotBlank
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "User password cannot be blank")
     private String password;
 
     private String firstname;
     private String lastname;
 
-    @Pattern(regexp="(^$|[0-9]{11})")
+    @Pattern(regexp =  "(^$|[0-9]{11}|[+][0-9]{12})",
+            message = "User phone pattern like nothing or 80447966275 or +375447966275")
     private String phone;
 }

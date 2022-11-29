@@ -14,15 +14,16 @@ import javax.validation.constraints.Null;
 @NoArgsConstructor
 public class AnswerDTO {
 
-    @Null(groups = Marker.OnCreate.class)
-    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class})
+    @Null(groups = Marker.OnCreate.class, message = "Answer id be null when creating")
+    @NotNull(groups = {Marker.OnUpdate.class, Marker.OnDelete.class},
+            message = "Answer id cannot be null when updating or deleting")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Answer cannot be blank")
     private String answer;
 
     private Long responseId;
 
-    @NotBlank
+    @NotNull(message = "Field cannot be null")
     private FieldDTO field;
 }
